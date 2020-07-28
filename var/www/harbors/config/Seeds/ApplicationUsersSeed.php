@@ -24,7 +24,7 @@ class ApplicationUsersSeed extends AbstractSeed
         for($i=0;$i<100;$i++) {
             $switchFlag = ($i % 2) === 0 ? true : false;
             $prefix = 'test' . $i;
-            $date = new DateTimeImmutable('2020-01-01');
+            $date = new DateTimeImmutable();
             $data = [
                 'service_category' => $switchFlag ? 'バーチャルオフィス' : 'コワーキング',
                 'accept_terms' => '同意する',
