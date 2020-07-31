@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace App\Controller;
-
+use App\Form\SearchForm;
 /**
  * ApplicationUsers Controller
  *
@@ -18,16 +18,17 @@ class ApplicationUsersController extends AppController
      */
     public function search()
     {
-        // GETリクエストかチェック
-        if ($this->request->is('get')) {
+        // POSTリクエストかチェック
+        if ($this->request->is('post')) {
+            $request = $this->request->getData();
             // クエリから、値を抽出する
-            $contractor_name = $this->request->getQuery('contractor_name', '');
-            $company = $this->request->getQuery('company', '');
-            $application_status = $this->request->getQuery('application_status', '');
-            $service_category = $this->request->getQuery('service_category', '');
-            $inflow_route = $this->request->getQuery('inflow_route', '');
-            $application_date = $this->request->getQuery('application_date', '');
-            $start_date_use = $this->request->getQuery('start_date_use', '');
+            $contractor_name = $request['contractor_name'];
+            $company = $request['company'];
+            $application_status = $request['application_status'];
+            $service_category = $request['service_category'];
+            $inflow_route = $request['inflow_route'];
+            $application_date = $request['application_date'];
+            $start_date_use = $request['start_date_use'];
         }
         // 取得した内容が空文字でない場合、検索条件を追加
         $conditions = [];

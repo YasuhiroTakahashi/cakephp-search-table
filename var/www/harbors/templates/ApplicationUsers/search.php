@@ -7,7 +7,7 @@
 ?>
 <div class="applicationUsers index content">
     <h3><?= __('申込一覧') ?></h3>
-    <?= $this->Form->create(null, ['url' => ['action' => 'search'], 'type' => 'get'])?>
+    <?= $this->Form->create(null, ['url' => ['action' => 'search'], 'type' => 'post'])?>
     <div class="row">
         <div class="column">
             <small style="position: absolute; margin: 0 0.5rem; padding: 0 0.5rem; background-color: white;">契約者氏名</small>
