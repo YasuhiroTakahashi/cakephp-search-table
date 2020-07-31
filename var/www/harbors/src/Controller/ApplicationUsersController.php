@@ -17,8 +17,10 @@ class ApplicationUsersController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function search()
-    {  
+    {
+        // GETリクエストかチェック
         if ($this->request->is('get')) {
+            // クエリから、値を抽出する
             $contractor_name = $this->request->getQuery('contractor_name', '');
             $company = $this->request->getQuery('company', '');
             $application_status = $this->request->getQuery('application_status', '');
@@ -27,6 +29,7 @@ class ApplicationUsersController extends AppController
             $application_date = $this->request->getQuery('application_date', '');
             $start_date_use = $this->request->getQuery('start_date_use', '');
         }
+        // 取得した内容が空文字でない場合、検索条件を追加
         $conditions = [];
         if ($contractor_name !== '') {
             $conditions[] = "ApplicationUsers.contractor_name like '%" . $contractor_name ."%'";
@@ -49,7 +52,7 @@ class ApplicationUsersController extends AppController
         if ($start_date_use !== '') {
             $conditions[] = "ApplicationUsers.start_date_use like '%" . $start_date_use ."%'";
         }
-
+        // view側で検索フォームにセットする用に配列にまとめる
         $search_form_data = compact(
             'contractor_name',
             'company',
@@ -59,20 +62,47 @@ class ApplicationUsersController extends AppController
             'application_date',
             'start_date_use'
         );
+        // ページネーションの設定
         $this->paginate = [
             'limit' => 10,
-            'order' => [
-                'ApplicationUsers.created' => 'asc'
-            ],
             'conditions' => $conditions   
         ];
-        $applicationUsers = $this->paginate($this->ApplicationUsers);
+        /* 
+            基本SQLの準備
+            １、application_statusesテーブルと結合させる
+            ２、第一ソートをapplication_status_idの昇順で行う
+            ３、第二ソートをapplication_dateの昇順で行う
+        */
+        $query = $this->ApplicationUsers->find()
+            ->leftJoin(
+                ['ApplicationStatuses' => 'application_statuses'],
+                ['ApplicationStatuses.name = ApplicationUsers.application_status']
+            )
+            ->select([
+                'id' => 'ApplicationUsers.id',
+                'contractor_name' => 'ApplicationUsers.contractor_name',
+                'company' => 'ApplicationUsers.company',
+                'application_status' => 'ApplicationUsers.application_status',
+                'service_category' => 'ApplicationUsers.service_category',
+                'inflow_route' => 'ApplicationUsers.inflow_route',
+                'application_date' => 'ApplicationUsers.application_date',
+                'start_date_use' => 'ApplicationUsers.start_date_use',
+                'application_status_id' => 'ApplicationStatuses.id',
+            ])
+            ->order(['application_status_id' => 'ASC'])
+            ->order(['ApplicationUsers.application_date' => 'ASC']);
+        // 申込情報を取得
+        $applicationUsers = $this->paginate($query);
+
+        //　検索条件に利用するデータを各テーブルより取得
         $this->loadModel('ApplicationStatuses');
         $applicationStatuses = $this->ApplicationStatuses->find();
         $this->loadModel('ServiceCategories');
         $serviceCategories = $this->ServiceCategories->find();
         $this->loadModel('InflowRoutes');
         $inflowRoutes = $this->InflowRoutes->find();
+
+        // view側で利用するために、各値をセット
         $this->set(compact('applicationUsers', 'search_form_data', 'applicationStatuses', 'serviceCategories', 'inflowRoutes'));
     }
 
@@ -83,19 +113,46 @@ class ApplicationUsersController extends AppController
      */
     public function index()
     {
+        // ページネーションの設定
         $this->paginate = [
             'limit' => 10,
-            'order' => [
-                'ApplicationUsers.application_status' => 'asc'
-            ]
         ];
-        $applicationUsers = $this->paginate($this->ApplicationUsers);
+        /* 
+            基本SQLの準備
+            １、application_statusesテーブルと結合させる
+            ２、第一ソートをapplication_status_idの昇順で行う
+            ３、第二ソートをapplication_dateの昇順で行う
+        */
+        $query = $this->ApplicationUsers->find()
+            ->leftJoin(
+                ['ApplicationStatuses' => 'application_statuses'],
+                ['ApplicationStatuses.name = ApplicationUsers.application_status']
+            )
+            ->select([
+                'id' => 'ApplicationUsers.id',
+                'contractor_name' => 'ApplicationUsers.contractor_name',
+                'company' => 'ApplicationUsers.company',
+                'application_status' => 'ApplicationUsers.application_status',
+                'service_category' => 'ApplicationUsers.service_category',
+                'inflow_route' => 'ApplicationUsers.inflow_route',
+                'application_date' => 'ApplicationUsers.application_date',
+                'start_date_use' => 'ApplicationUsers.start_date_use',
+                'application_status_id' => 'ApplicationStatuses.id',
+            ])
+            ->order(['application_status_id' => 'ASC'])
+            ->order(['ApplicationUsers.application_date' => 'ASC']);
+        // 申込情報を取得
+        $applicationUsers = $this->paginate($query);
+
+         //　検索条件に利用するデータを各テーブルより取得
         $this->loadModel('ApplicationStatuses');
         $applicationStatuses = $this->ApplicationStatuses->find();
         $this->loadModel('ServiceCategories');
         $serviceCategories = $this->ServiceCategories->find();
         $this->loadModel('InflowRoutes');
         $inflowRoutes = $this->InflowRoutes->find();
+
+        // view側で利用するために、各値をセット
         $this->set(compact('applicationUsers', 'applicationStatuses', 'serviceCategories', 'inflowRoutes'));
     }
 

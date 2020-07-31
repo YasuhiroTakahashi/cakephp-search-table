@@ -88,7 +88,7 @@
             <tbody>
                 <?php foreach ($applicationUsers as $applicationUser): ?>
                 <tr>
-                    <td><?= h($applicationUser->contractor_name) ?></td>
+                    <td><?= $this->Html->link(__(h($applicationUser->contractor_name)), ['action' => 'edit', $applicationUser->id]) ?></td>
                     <td><?= h($applicationUser->company) ?></td>
                     <td><?= h($applicationUser->application_status) ?></td>
                     <td><?= h($applicationUser->service_category) ?></td>
