@@ -12,9 +12,16 @@
  * @since         0.10.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
+ * @var $auth_user
  */
 
 $cakeDescription = 'CakePHP: the rapid development php framework';
+
+if (isset($auth_user)) {
+    $authenticated = true;
+} else {
+    $authenticated = false;
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,12 +45,20 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 <body>
     <nav class="top-nav">
         <div class="top-nav-title">
-            <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
+            <a href="<?= $this->Url->build('/') ?>"><span>HarborS</span></a>
         </div>
-        <div class="top-nav-links">
-            <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/">Documentation</a>
-            <a target="_blank" rel="noopener" href="https://api.cakephp.org/4/">API</a>
-        </div>
+        <?php if($authenticated): ?>
+            <?= $this->Form->create(null, array( 'url' => 'users/logout',)); ?>
+            <div class="row">
+                <div style="margin: 0 1rem; padding: 0 1rem; height: 3.8rem; color: #606c76; background-color: #bdbdbd; border-radius: 20rem;">
+                    <p style="padding-top: 0.6rem">
+                        <?= $auth_user->email ?>
+                    </p>
+                </div>
+                <?= $this->Form->button(__('Logout')) ?>
+            </div>      
+            <?= $this->Form->end() ?>
+        <?php endif; ?>
     </nav>
     <main class="main">
         <div class="container">

@@ -1,32 +1,42 @@
 /* Miligram overrides */
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 400;
 }
 
 .top-nav-links,
 .side-nav,
-h1, h2, h3, h4, h5, h6 {
-    font-family: "Raleway", sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Raleway', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: 400;
     color: #363637;
 }
 
 a {
-    color:#2f85ae;
-    -webkit-transition:all 0.2s linear;
-    transition:all 0.2s linear;
+    color: #2f85ae;
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
 }
 
 a:hover,
 a:focus,
-a:active  {
-    color:#2a6496;
-    -webkit-transition:all 0.2s easeout;
-    transition:all 0.2s ease-out;
+a:active {
+    color: #2a6496;
+    -webkit-transition: all 0.2s easeout;
+    transition: all 0.2s ease-out;
 }
 
 .side-nav a,
@@ -40,7 +50,7 @@ th a,
 .side-nav a:focus,
 .actions a:hover,
 .actions a:focus {
-    color:#2f85ae;
+    color: #2f85ae;
 }
 
 /* Utility */
@@ -76,9 +86,13 @@ th {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 112rem;
-    padding: 2rem;
-    margin: 0 auto 2rem;
+    padding: 1rem;
+    box-shadow: 0px 10px 10px -10px #363637;
+    height: 6.4rem;
+    background-color: #f5f5f5;
+}
+.top-nav-title {
+    padding: 0 8rem;
 }
 .top-nav-title a {
     font-size: 2.4rem;
@@ -86,6 +100,7 @@ th {
 }
 .top-nav-title span {
     color: #404041;
+    font-size: 3rem;
 }
 .top-nav-links a {
     margin: 0 0.5rem;
@@ -138,7 +153,7 @@ th {
 /* Forms */
 .input.radio,
 .input.checkbox {
-    margin-bottom: 2.0rem;
+    margin-bottom: 2rem;
 }
 .input.radio input,
 .input.checkbox input {
@@ -152,10 +167,10 @@ th {
 }
 .input.radio label > input,
 .input.checkbox label > input {
-    margin-right: 1.0rem;
+    margin-right: 1rem;
 }
 .input.radio label:first-of-type {
-    margin-bottom: 2.0rem;
+    margin-bottom: 2rem;
 }
 
 /* Paginator */
@@ -178,10 +193,18 @@ th {
     color: #606c76;
 }
 .asc:after {
-    content: " \2193";
+    content: ' \2193';
 }
 .desc:after {
-    content: " \2191";
+    content: ' \2191';
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 112rem;
+    padding: 18px;
+    position: relative;
+    width: 100%;
 }
 
 /* Error */
@@ -208,9 +231,9 @@ th {
         margin: 0 1.5rem 0 0;
     }
     .asc:after {
-        content: " \2192";
+        content: ' \2192';
     }
     .desc:after {
-        content: " \2190";
+        content: ' \2190';
     }
 }
